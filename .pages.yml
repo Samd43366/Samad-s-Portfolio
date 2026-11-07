@@ -1,0 +1,131 @@
+# Pages CMS config. Sign in at https://app.pagescms.org with GitHub and open this repo.
+# Every save is a commit to the repo; Vercel redeploys on its own.
+
+media:
+  - name: images
+    label: Images
+    input: src/assets/uploads
+    output: /src/assets/uploads
+    extensions: [jpg, jpeg, png, webp]
+
+content:
+  - name: site
+    label: Site settings
+    type: file
+    path: src/data/site.json
+    format: json
+    fields:
+      - name: photo
+        label: Your photo
+        type: image
+        description: Portrait, taller than wide works best. Any size is fine; the site shrinks it.
+        options:
+          media: images
+      - name: photoAlt
+        label: Photo description
+        type: string
+        description: For screen readers, for example "Badmus Samad smiling at a desk".
+      - name: name
+        label: Your name
+        type: string
+        required: true
+      - name: headline
+        label: Headline on the home page
+        type: text
+        required: true
+        description: The first thing a visitor reads. One or two sentences.
+      - name: subline
+        label: Line under the headline
+        type: text
+      - name: title
+        label: Browser tab title
+        type: string
+      - name: description
+        label: Search result description
+        type: text
+      - name: email
+        label: Email
+        type: string
+        required: true
+      - name: github
+        label: GitHub URL
+        type: string
+        required: true
+      - name: linkedin
+        label: LinkedIn URL (optional)
+        type: string
+      - name: freelancer
+        label: Freelancer profile URL (optional)
+        type: string
+
+  - name: projects
+    label: Projects
+    type: collection
+    path: src/content/projects
+    filename: "{primary}.md"
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        label: Project name
+        type: string
+        required: true
+      - name: summary
+        label: One-sentence summary
+        type: text
+        required: true
+        description: What problem it solves, in plain language.
+      - name: status
+        label: Status
+        type: select
+        required: true
+        description: Live only if a stranger can use it today.
+        options:
+          values: [live, building, planned]
+      - name: stack
+        label: Stack
+        type: string
+        list: true
+        required: true
+      - name: year
+        label: Year
+        type: number
+        required: true
+      - name: order
+        label: Order (1 appears first)
+        type: number
+      - name: featured
+        label: Show on the home page
+        type: boolean
+      - name: draft
+        label: Hide from the site
+        type: boolean
+      - name: demo
+        label: Live demo URL
+        type: string
+      - name: repo
+        label: Source code URL
+        type: string
+      - name: links
+        label: Other links
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: Link text
+            type: string
+            required: true
+          - name: url
+            label: URL
+            type: string
+            required: true
+      - name: image
+        label: Screenshot or cover image
+        type: image
+        options:
+          media: images
+      - name: imageAlt
+        label: Image description
+        type: string
+      - name: body
+        label: Case study
+        type: rich-text

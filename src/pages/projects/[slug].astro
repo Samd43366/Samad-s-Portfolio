@@ -1,0 +1,69 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { findImage } from '../../lib/image';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, status, stack, year, demo, repo, links, image, imageAlt } = entry.data;
+const cover = findImage(image);
+const hasLinks = Boolean(demo || repo || links.length);
+
+const statusLabel = { live: 'Live', building: 'In progress', planned: 'Planned' } as const;
+---
+
+<Base title={title} description={summary}>
+  <div class="wrap">
+    <a class="back" href="/projects">All projects</a>
+
+    <header class="case-head">
+      <h1>{title}</h1>
+      <p class="lede">{summary}</p>
+
+      <dl class="facts">
+        <div>
+          <dt>Status</dt>
+          <dd><span class="status" data-status={status}>{statusLabel[status]}</span></dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd>{stack.join(', ')}</dd>
+        </div>
+        <div>
+          <dt>Year</dt>
+          <dd>{year}</dd>
+        </div>
+        {
+          hasLinks && (
+            <div>
+              <dt>Links</dt>
+              <dd class="link-stack">
+                {demo && <a href={demo}>Live demo</a>}
+                {repo && <a href={repo}>Source code</a>}
+                {links.map((l) => <a href={l.url}>{l.label}</a>)}
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+    </header>
+
+    {
+      cover && (
+        <figure class="cover">
+          <Image src={cover} alt={imageAlt || `${title} screenshot`} width={1100} format="webp" quality={80} />
+        </figure>
+      )
+    }
+
+    <article class="prose">
+      <Content />
+    </article>
+  </div>
+</Base>

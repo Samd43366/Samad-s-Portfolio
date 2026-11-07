@@ -1,0 +1,15 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap">
+    <span>&copy; {year} {site.name}</span>
+    <span>
+      <a href={site.github}>GitHub</a>
+      {site.linkedin && <> &nbsp;<a href={site.linkedin}>LinkedIn</a></>}
+      {site.freelancer && <> &nbsp;<a href={site.freelancer}>Freelancer</a></>}
+    </span>
+  </div>
+</footer>

@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import ProjectList from '../components/ProjectList.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../data/site';
+import { findImage } from '../lib/image';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft && data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const photo = findImage(site.photo);
+---
+
+<Base>
+  <section class:list={['wrap', 'hero', { 'hero--photo': photo }]}>
+    <div class="hero-text">
+      <h1>{site.headline}</h1>
+      <p class="lede">{site.subline}</p>
+    </div>
+    {
+      photo && (
+        <Image
+          class="portrait"
+          src={photo}
+          alt={site.photoAlt || `Portrait of ${site.name}`}
+          width={640}
+          format="webp"
+          quality={80}
+          loading="eager"
+        />
+      )
+    }
+  </section>
+
+  <section class="wrap section" aria-labelledby="work">
+    <h2 id="work">Projects</h2>
+    <ProjectList projects={projects} />
+    <p style="margin-top: 1.25rem;"><a href="/projects">All projects</a></p>
+  </section>
+
+  <section class="wrap section" aria-labelledby="contact">
+    <h2 id="contact">Contact</h2>
+    <p>Hiring, or have a backend to build? Email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  </section>
+</Base>

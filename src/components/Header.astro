@@ -1,0 +1,26 @@
+---
+import { site, nav } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href || path.startsWith(href + '/');
+---
+
+<header>
+  <div class="band" aria-hidden="true"></div>
+  <div class="wrap bar">
+    <a class="wordmark" href="/">{site.name}</a>
+    <nav aria-label="Main">
+      <ul class="nav">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

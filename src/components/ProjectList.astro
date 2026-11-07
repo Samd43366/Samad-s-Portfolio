@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+
+const statusLabel = {
+  live: 'Live',
+  building: 'In progress',
+  planned: 'Planned',
+} as const;
+---
+
+<ul class="ledger">
+  {
+    projects.map((p) => (
+      <li>
+        <a class="row" href={`/projects/${p.id}`}>
+          <span>
+            <span class="row-title">{p.data.title}</span>
+            <span class="row-summary">{p.data.summary}</span>
+            <span class="row-stack">{p.data.stack.join(', ')}</span>
+          </span>
+          <span class="status" data-status={p.data.status}>
+            {statusLabel[p.data.status]}
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

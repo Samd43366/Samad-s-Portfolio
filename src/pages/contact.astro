@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Contact" description="Email, GitHub and resume.">
+  <div class="wrap page-head">
+    <h1>Contact</h1>
+    <p class="lede">Email is the fastest way to reach me.</p>
+  </div>
+  <div class="wrap">
+    <ul class="links">
+      <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+      <li><a href={site.github}>GitHub</a></li>
+      {site.linkedin && <li><a href={site.linkedin}>LinkedIn</a></li>}
+      {site.freelancer && <li><a href={site.freelancer}>Freelancer profile</a></li>}
+      <li><a href="/resume.pdf">Resume (PDF)</a></li>
+    </ul>
+  </div>
+</Base>

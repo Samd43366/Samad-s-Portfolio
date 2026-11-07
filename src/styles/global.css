@@ -1,0 +1,481 @@
+/* Tokens ------------------------------------------------------------- */
+:root {
+  --paper: #f3f5fa;
+  --ink: #121a3b;
+  --ink-soft: #4a5273;
+  --rule: #d3d8e8;
+  --accent: #2a3fd0;
+  --wash: #e6eaf6;
+
+  /* The pattern band at the top of every page. Same in light and dark. */
+  --band: #1b2561;
+  --band-mark: #f3f5fa;
+
+  --display: 'Familjen Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --text: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+
+  --wrap: 64rem;
+  --measure: 66ch;
+  --gutter: clamp(1rem, 4vw, 2rem);
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0d1230;
+    --ink: #e9ecf8;
+    --ink-soft: #a4abcb;
+    --rule: #232b58;
+    --accent: #8fa0ff;
+    --wash: #151c45;
+  }
+}
+
+/* Base --------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 1rem;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding-bottom: 4rem;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 1.2rem + 5vw, 4.25rem);
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2rem);
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--wrap));
+  margin-inline: auto;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: -4rem;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+
+.skip:focus {
+  top: 1rem;
+}
+
+/* Header ------------------------------------------------------------- */
+.band {
+  height: 14px;
+  background-color: var(--band);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Ccircle cx='7' cy='7' r='3.4' fill='none' stroke='%23f3f5fa' stroke-width='1'/%3E%3Ccircle cx='7' cy='7' r='0.9' fill='%23f3f5fa'/%3E%3C/svg%3E");
+  background-size: 14px 14px;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding-block: 1.25rem;
+}
+
+.wordmark {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+
+.nav a {
+  color: var(--ink);
+  text-decoration: none;
+  padding-block: 0.25rem;
+  border-bottom: 2px solid transparent;
+}
+
+.nav a:hover,
+.nav a[aria-current='page'] {
+  border-bottom-color: var(--accent);
+}
+
+/* Sections ----------------------------------------------------------- */
+.hero {
+  padding-block: clamp(3rem, 8vw, 6rem) clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.hero h1 {
+  max-width: 21ch;
+}
+
+.lede {
+  max-width: var(--measure);
+  margin-top: 1.5rem;
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+}
+
+.section {
+  padding-top: 2.5rem;
+}
+
+.section > h2 {
+  margin-bottom: 1.25rem;
+}
+
+.page-head {
+  padding-block: clamp(2rem, 5vw, 3.5rem) 1.5rem;
+}
+
+.page-head h1 {
+  font-size: clamp(2rem, 1rem + 3.5vw, 3rem);
+}
+
+/* Project ledger ----------------------------------------------------- */
+.ledger {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ledger li {
+  border-top: 1px solid var(--rule);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem 2rem;
+  padding-block: 1.5rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.row-title {
+  display: block;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.row:hover .row-title,
+.row:focus-visible .row-title {
+  text-decoration-color: var(--accent);
+}
+
+.row-summary {
+  display: block;
+  margin-top: 0.35rem;
+  max-width: var(--measure);
+}
+
+.row-stack {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 36rem) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Status: shape carries the meaning, not just color */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: start;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.status::before {
+  content: '';
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  flex: none;
+}
+
+.status[data-status='live']::before {
+  background: var(--accent);
+}
+
+.status[data-status='building']::before {
+  background: linear-gradient(90deg, var(--accent) 50%, transparent 50%);
+}
+
+.status[data-status='planned']::before {
+  border-style: dashed;
+}
+
+/* Case study --------------------------------------------------------- */
+.back {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.case-head {
+  padding-block: 1rem 2rem;
+}
+
+.case-head h1 {
+  font-size: clamp(2.2rem, 1rem + 4vw, 3.5rem);
+  max-width: 20ch;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1.25rem 2rem;
+  margin: 2rem 0 0;
+  padding-block: 1.25rem;
+  border-block: 1px solid var(--rule);
+}
+
+.facts dt {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.facts dd {
+  margin: 0.15rem 0 0;
+}
+
+.prose {
+  max-width: var(--measure);
+  line-height: 1.7;
+}
+
+.prose h2 {
+  margin: 2.75rem 0 0.75rem;
+}
+
+.prose h3 {
+  margin: 2rem 0 0.5rem;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.25rem;
+  margin: 0 0 1em;
+}
+
+.prose li {
+  margin-bottom: 0.35em;
+}
+
+.prose img,
+.prose svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--accent);
+  color: var(--ink-soft);
+}
+
+.prose code {
+  font-size: 0.9em;
+  background: var(--wash);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.prose pre {
+  background: var(--wash);
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Contact ------------------------------------------------------------ */
+.links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 1.35rem;
+}
+
+.links li {
+  padding-block: 0.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+.links li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Footer ------------------------------------------------------------- */
+.footer {
+  border-top: 1px solid var(--rule);
+  padding-block: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+}
+
+.footer a {
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+/* Photo ---------------------------------------------------------------- */
+.portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 11rem;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  margin-top: 2rem;
+  background: var(--wash);
+  box-shadow: 0.6rem 0.6rem 0 var(--band);
+}
+
+@media (min-width: 52rem) {
+  .hero--photo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    gap: 3rem;
+    align-items: end;
+  }
+
+  .hero--photo .portrait {
+    max-width: none;
+    margin-top: 0;
+  }
+}
+
+/* Project cover and link list ---------------------------------------- */
+.cover {
+  margin: 0 0 2.5rem;
+}
+
+.cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+
+.link-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
