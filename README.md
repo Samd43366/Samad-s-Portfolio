@@ -1,6 +1,6 @@
 # Badmus Samad: portfolio
 
-Personal portfolio of Badmus Samad, a backend engineer in Ibadan, Nigeria. It holds case studies of the AI and backend systems I build, with the decisions behind each one.
+Personal portfolio of Badmus Samad, a backend developer in Ibadan, Nigeria. It holds case studies of the AI and backend systems I build, with the decisions behind each one.
 
 ## Stack
 
