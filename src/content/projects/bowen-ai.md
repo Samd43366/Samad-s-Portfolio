@@ -8,6 +8,10 @@ order: 2
 repo: https://github.com/Samd43366/bowen-ai
 ---
 
+## Problem
+
+University information lives in long documents such as the handbook and course materials, and finding one answer in them by hand is slow. Bowen AI lets a student ask in plain language and answers from those documents, with the source shown.
+
 ## What I built
 
 A retrieval-augmented chatbot. Documents are split into chunks, embedded and stored in Qdrant. A question retrieves the closest chunks, and Gemini answers using those chunks. The app shows the sources each answer used. It also has sign-in with roles, an admin page for uploading documents, and scheduled jobs that keep the knowledge base up to date.
