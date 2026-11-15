@@ -4,25 +4,16 @@ summary: "A question-answering assistant for students that answers from course d
 status: building
 stack: [Python, FastAPI, Qdrant, Gemini]
 year: 2026
-order: 1
-# demo: https://TODO
-# repo: https://github.com/TODO
+order: 2
+repo: https://github.com/Samd43366/bowen-ai
 ---
-
-## Problem
-
-TODO: one sentence on who asked the question and what went wrong without this tool (for example, students searching long documents by hand).
 
 ## What I built
 
-A retrieval-augmented chatbot. Documents are split into chunks, embedded and stored in Qdrant. A question retrieves the closest chunks, and Gemini answers using only those chunks. Every answer lists the sources it came from.
+A retrieval-augmented chatbot. Documents are split into chunks, embedded and stored in Qdrant. A question retrieves the closest chunks, and Gemini answers using those chunks. The app shows the sources each answer used. It also has sign-in with roles, an admin page for uploading documents, and scheduled jobs that keep the knowledge base up to date.
 
-TODO: add the architecture diagram here once the cut-down version is deployed.
+## What's next
 
-## The hard decision
-
-TODO: pick one real trade-off from the build. Examples: chunk size and overlap, the score threshold below which the bot refuses to answer, or why auth was removed from this repo and moved into a separate platform.
-
-## Result
-
-TODO: paste the retrieval hit rate from `eval/RESULTS.md` (k=3 and k=5) and the number of unanswerable questions it correctly refused. Do not publish a number you did not measure.
+- **Cut it down to the chatbot.** Auth, payments and logistics move out into a separate platform, so this repo does one thing.
+- **Move the vector store from Qdrant to pgvector.** I decided on this to keep the setup cheaper to run. This page still lists Qdrant because that's what the code uses today.
+- **Let visitors try it.** The plan is a demo where you upload a document, it is chunked and embedded, and you ask it questions. It is not live yet.
