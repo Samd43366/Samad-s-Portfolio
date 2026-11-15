@@ -20,7 +20,27 @@ const isCurrent = (href: string) => path === href || path.startsWith(href + '/')
             </li>
           ))
         }
+        <li><button class="theme-toggle" type="button" data-theme-toggle>Dark mode</button></li>
       </ul>
     </nav>
   </div>
 </header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const root = document.documentElement;
+  const sync = () => {
+    if (btn) btn.textContent = root.dataset.theme === 'dark' ? 'Light mode' : 'Dark mode';
+  };
+  btn?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      // Storage can be blocked (private window). The choice still applies for this page view.
+    }
+    sync();
+  });
+  sync();
+</script>

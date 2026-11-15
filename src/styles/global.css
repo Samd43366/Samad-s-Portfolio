@@ -18,18 +18,19 @@
   --measure: 66ch;
   --gutter: clamp(1rem, 4vw, 2rem);
 
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #0d1230;
-    --ink: #e9ecf8;
-    --ink-soft: #a4abcb;
-    --rule: #232b58;
-    --accent: #8fa0ff;
-    --wash: #151c45;
-  }
+/* Light is the default. Dark only applies when the visitor picks it with the toggle in the header. */
+:root[data-theme='dark'] {
+  --paper: #0d1230;
+  --ink: #e9ecf8;
+  --ink-soft: #a4abcb;
+  --rule: #232b58;
+  --accent: #8fa0ff;
+  --wash: #151c45;
+
+  color-scheme: dark;
 }
 
 /* Base --------------------------------------------------------------- */
@@ -170,6 +171,25 @@ a:hover {
 .nav a:hover,
 .nav a[aria-current='page'] {
   border-bottom-color: var(--accent);
+}
+
+.theme-toggle {
+  font: inherit;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0.25rem 0;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  border-bottom-color: var(--accent);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* Sections ----------------------------------------------------------- */
