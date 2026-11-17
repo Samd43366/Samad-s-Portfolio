@@ -94,6 +94,55 @@ main {
   padding-bottom: 4rem;
 }
 
+/* Colour: each page has an accent pair. The home page uses blue and violet,
+   and a project page uses that project's own colour. */
+body[data-accent='blue'],
+.project-card[data-accent='blue'] {
+  --a: var(--c-blue);
+  --a2: var(--c-violet);
+}
+body[data-accent='violet'],
+.project-card[data-accent='violet'] {
+  --a: var(--c-violet);
+  --a2: var(--c-pink);
+}
+body[data-accent='green'],
+.project-card[data-accent='green'] {
+  --a: var(--c-green);
+  --a2: var(--c-blue);
+}
+body[data-accent='orange'],
+.project-card[data-accent='orange'] {
+  --a: var(--c-orange);
+  --a2: var(--c-pink);
+}
+body[data-accent='pink'],
+.project-card[data-accent='pink'] {
+  --a: var(--c-pink);
+  --a2: var(--c-violet);
+}
+
+body {
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 42rem;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(42rem 24rem at 12% 0%, color-mix(in srgb, var(--a, var(--c-blue)) 26%, transparent), transparent 70%),
+    radial-gradient(38rem 22rem at 88% 6%, color-mix(in srgb, var(--a2, var(--c-violet)) 22%, transparent), transparent 70%),
+    radial-gradient(30rem 16rem at 55% 0%, color-mix(in srgb, var(--c-green) 16%, transparent), transparent 70%);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--c-blue) 35%, transparent);
+}
+
 h1,
 h2,
 h3 {
@@ -205,8 +254,8 @@ a {
 }
 
 .seg a[aria-current='page'] {
-  color: var(--ink);
-  background: var(--surface-3);
+  color: var(--blue-text);
+  background: color-mix(in srgb, var(--c-blue) 16%, transparent);
 }
 
 .icon-btn {
@@ -429,6 +478,86 @@ a {
   border-radius: var(--r-lg);
 }
 
+/* A tint colours the whole card softly. Text stays on the normal ink colours. */
+.card[data-tint] {
+  --t: var(--c-gray);
+  background: color-mix(in srgb, var(--t) 9%, var(--surface));
+  border-color: color-mix(in srgb, var(--t) 30%, var(--line));
+}
+.card[data-tint='green'] {
+  --t: var(--c-green);
+}
+.card[data-tint='blue'] {
+  --t: var(--c-blue);
+}
+.card[data-tint='violet'] {
+  --t: var(--c-violet);
+}
+.card[data-tint='pink'] {
+  --t: var(--c-pink);
+}
+.card[data-tint='orange'] {
+  --t: var(--c-orange);
+}
+
+.card[data-tint] .plain-list li::before {
+  background: var(--t);
+}
+
+.card--accent {
+  border-top: 4px solid var(--a, var(--c-blue));
+}
+
+/* The call-to-action card: the one place with a saturated gradient, like the Focus time card in the reference. */
+.card--vivid {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, #3446e8 0%, #7a3fe3 55%, #c0309e 100%);
+  border-color: transparent;
+  color: #fff;
+}
+
+.card--vivid .card-head p {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.card--vivid .card-head,
+.card--vivid .btn-row {
+  position: relative;
+}
+
+.vivid-hex {
+  position: absolute;
+  right: clamp(0.5rem, 3vw, 2.5rem);
+  top: 50%;
+  width: clamp(7rem, 20vw, 13rem);
+  transform: translateY(-50%);
+  fill: rgba(255, 255, 255, 0.16);
+  pointer-events: none;
+}
+
+.btn--white {
+  background: #fff;
+  border-color: #fff;
+  color: #111318;
+}
+
+.btn--white:hover {
+  border-color: #fff;
+  filter: brightness(0.94);
+}
+
+.btn--glass {
+  background: rgba(20, 10, 70, 0.32);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+.btn--glass:hover {
+  background: rgba(20, 10, 70, 0.45);
+  border-color: #fff;
+}
+
 .card-head h2,
 .card-head h3 {
   font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.7rem);
@@ -594,6 +723,14 @@ a {
   fill: var(--c-violet);
   opacity: 0.5;
 }
+.hx[data-l='4'] {
+  fill: var(--c-orange);
+  opacity: 0.6;
+}
+.hx[data-l='5'] {
+  fill: var(--c-pink);
+  opacity: 0.5;
+}
 
 .hx-ring {
   fill: none;
@@ -684,7 +821,11 @@ a {
   display: block;
   width: 100%;
   height: auto;
-  background: var(--surface-2);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--a, var(--c-blue)) 34%, var(--surface-2)),
+    color-mix(in srgb, var(--a2, var(--c-violet)) 16%, var(--surface-2))
+  );
   border-bottom: 1px solid var(--line);
 }
 
@@ -994,4 +1135,10 @@ a {
 
 .footer a {
   color: var(--ink-2);
+}
+
+@media (max-width: 36rem) {
+  .vivid-hex {
+    display: none;
+  }
 }

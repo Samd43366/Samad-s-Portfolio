@@ -5,6 +5,7 @@ status: building
 stack: [Python, FastAPI, Qdrant, Gemini]
 year: 2026
 order: 2
+accent: violet
 repo: https://github.com/Samd43366/bowen-ai
 ---
 

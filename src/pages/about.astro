@@ -4,21 +4,25 @@ import { site } from '../data/site';
 
 const built = [
   {
+    tint: 'violet',
     title: 'Bowen AI',
     sub: 'FastAPI, Qdrant, Gemini',
     text: 'A study assistant for students. It answers from course documents and cites its sources.',
   },
   {
+    tint: 'blue',
     title: 'Amok AI',
     sub: 'Multi-tenant AI platform',
     text: "PostgreSQL schema design, tiered pricing logic, cost and margin modeling, and a RAG pipeline that keeps each tenant's data isolated.",
   },
   {
+    tint: 'pink',
     title: 'Jarvis',
     sub: 'AI assistant backend',
     text: 'Request routing, session logic, LLM integration and a RAG pipeline for document-grounded answers.',
   },
   {
+    tint: 'green',
     title: 'Vergold Technologies',
     sub: 'Software development intern, April to August 2025',
     text: 'I helped build backend APIs with FastAPI and Flask, wrote internal tools and scripts in Python, and took part in code reviews.',
@@ -40,7 +44,7 @@ const built = [
     <div class="bento">
       {
         built.map((b) => (
-          <div class="card cell cell--6">
+          <div class="card cell cell--6" data-tint={b.tint}>
             <div class="card-head">
               <h3>{b.title}</h3>
               <p>{b.sub}</p>
@@ -67,7 +71,7 @@ const built = [
         </ul>
       </div>
 
-      <div class="card cell cell--6">
+      <div class="card cell cell--6" data-tint="orange">
         <div class="card-head">
           <h2>What I'm looking for</h2>
         </div>
@@ -77,15 +81,20 @@ const built = [
         </p>
       </div>
 
-      <div class="card cell">
+      <div class="card card--vivid cell">
+        <svg class="vivid-hex" viewBox="0 0 120 100" aria-hidden="true">
+          <path d="M40 4 66 19v30L40 64 14 49V19z"></path>
+          <path d="M82 40 108 55v30L82 100 56 85V55z"></path>
+          <path d="M26 56 40 64v16L26 88 12 80V64z"></path>
+        </svg>
         <div class="card-head">
           <h2>Working with me</h2>
           <p>Email me with what you need built or the role you're hiring for.</p>
         </div>
         <div class="btn-row">
-          <a class="btn btn--primary" href={`mailto:${site.email}`}>Email me</a>
-          <a class="btn" href="/resume.pdf">Resume</a>
-          <a class="btn" href={site.github}>GitHub</a>
+          <a class="btn btn--white" href={`mailto:${site.email}`}>Email me</a>
+          <a class="btn btn--glass" href="/resume.pdf">Resume</a>
+          <a class="btn btn--glass" href={site.github}>GitHub</a>
         </div>
       </div>
     </div>

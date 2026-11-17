@@ -14,14 +14,14 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, summary, status, stack, year, demo, repo, links, image, imageAlt } = entry.data;
+const { title, summary, status, stack, year, demo, repo, links, image, imageAlt, accent } = entry.data;
 const cover = findImage(image);
 const hasLinks = Boolean(demo || repo || links.length);
 
 const statusLabel = { live: 'Live', building: 'In progress', planned: 'Planned' } as const;
 ---
 
-<Base title={title} description={summary}>
+<Base title={title} description={summary} accent={accent}>
   <div class="wrap">
     <a class="back" href="/projects">All projects</a>
 
@@ -45,7 +45,7 @@ const statusLabel = { live: 'Live', building: 'In progress', planned: 'Planned' 
       </article>
 
       <aside class="case-side" aria-label="Project details">
-        <div class="card">
+        <div class="card card--accent">
           <dl class="facts">
             <div>
               <dt>Status</dt>

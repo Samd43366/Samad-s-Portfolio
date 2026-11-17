@@ -5,6 +5,7 @@ status: building
 stack: [Python, FastAPI, PostgreSQL, PostGIS, H3, React, Leaflet]
 year: 2026
 order: 1
+accent: green
 repo: https://github.com/Samd43366/naija-pulse
 ---
 

@@ -89,7 +89,7 @@ const stack = [
       </div>
     </div>
     <div class="bento">
-      <div class="card cell cell--7">
+      <div class="card cell cell--7" data-tint="green">
         <div class="card-head">
           <h3>Software development intern</h3>
           <p>Vergold Technologies</p>
@@ -123,7 +123,7 @@ const stack = [
         </div>
       </div>
 
-      <div class="card cell cell--7">
+      <div class="card cell cell--7" data-tint="blue">
         <div class="card-head">
           <h3>BSc Computer Science</h3>
           <p>Bowen University, Ibadan</p>
@@ -131,15 +131,20 @@ const stack = [
         <div class="card-foot"><span class="status" data-status="building">In progress</span></div>
       </div>
 
-      <div class="card cell">
+      <div class="card card--vivid cell">
+        <svg class="vivid-hex" viewBox="0 0 120 100" aria-hidden="true">
+          <path d="M40 4 66 19v30L40 64 14 49V19z"></path>
+          <path d="M82 40 108 55v30L82 100 56 85V55z"></path>
+          <path d="M26 56 40 64v16L26 88 12 80V64z"></path>
+        </svg>
         <div class="card-head">
           <h3>Hiring, or have a backend to build?</h3>
           <p>Email is the fastest way to reach me.</p>
         </div>
         <div class="card-foot btn-row">
-          <a class="btn btn--primary" href={`mailto:${site.email}`}>Email me</a>
-          <a class="btn" href={site.github}>GitHub</a>
-          <a class="btn" href="/resume.pdf">Resume</a>
+          <a class="btn btn--white" href={`mailto:${site.email}`}>Email me</a>
+          <a class="btn btn--glass" href={site.github}>GitHub</a>
+          <a class="btn btn--glass" href="/resume.pdf">Resume</a>
         </div>
       </div>
     </div>

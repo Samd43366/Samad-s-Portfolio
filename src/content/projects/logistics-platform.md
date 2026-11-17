@@ -5,6 +5,7 @@ status: planned
 stack: [Python, FastAPI, PostgreSQL]
 year: 2026
 order: 3
+accent: orange
 # Hidden until there is a working demo. Remove this line to show it again.
 draft: true
 ---

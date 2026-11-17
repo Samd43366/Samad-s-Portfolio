@@ -9,12 +9,12 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, summary, status, stack, repo, demo } = project.data;
+const { title, summary, status, stack, repo, demo, accent } = project.data;
 
 const statusLabel = { live: 'Live', building: 'In progress', planned: 'Planned' } as const;
 ---
 
-<article class="card project-card">
+<article class="card project-card" data-accent={accent}>
   <ProjectArt id={project.id} />
   <div class="project-body">
     <div class="project-top">

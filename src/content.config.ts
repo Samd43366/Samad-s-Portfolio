@@ -15,6 +15,8 @@ const projects = defineCollection({
     stack: z.array(z.string()).min(1),
     year: z.number(),
     order: z.number().default(99),
+    // Colour that carries through the project's card, art and page.
+    accent: z.enum(['blue', 'violet', 'green', 'orange', 'pink']).default('blue'),
     featured: z.boolean().default(true),
     draft: z.boolean().default(false),
     demo: optionalUrl,
