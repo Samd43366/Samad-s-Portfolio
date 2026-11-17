@@ -1,54 +1,93 @@
 ---
 import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+
+const built = [
+  {
+    title: 'Bowen AI',
+    sub: 'FastAPI, Qdrant, Gemini',
+    text: 'A study assistant for students. It answers from course documents and cites its sources.',
+  },
+  {
+    title: 'Amok AI',
+    sub: 'Multi-tenant AI platform',
+    text: "PostgreSQL schema design, tiered pricing logic, cost and margin modeling, and a RAG pipeline that keeps each tenant's data isolated.",
+  },
+  {
+    title: 'Jarvis',
+    sub: 'AI assistant backend',
+    text: 'Request routing, session logic, LLM integration and a RAG pipeline for document-grounded answers.',
+  },
+  {
+    title: 'Vergold Technologies',
+    sub: 'Software development intern, April to August 2025',
+    text: 'I helped build backend APIs with FastAPI and Flask, wrote internal tools and scripts in Python, and took part in code reviews.',
+  },
+];
 ---
 
 <Base title="About" description="Backend developer in Ibadan, Nigeria. Computer Science student at Bowen University.">
   <div class="wrap page-head">
     <h1>About</h1>
-  </div>
-  <div class="wrap prose">
-    <p>
+    <p class="lede">
       I'm a backend developer in Ibadan, Nigeria, and a Computer Science student at Bowen University. I write Python
       services: APIs, retrieval pipelines for LLM apps, and the data layer underneath them.
     </p>
-
-    <h2>What I've built</h2>
-    <ul>
-      <li>
-        <strong>Bowen AI.</strong> A study assistant for students. It answers from course documents and cites its
-        sources. FastAPI, Qdrant, Gemini.
-      </li>
-      <li>
-        <strong>Amok AI.</strong> A multi-tenant AI platform: PostgreSQL schema design, tiered pricing logic, cost and
-        margin modeling, and a RAG pipeline that keeps each tenant's data isolated.
-      </li>
-      <li>
-        <strong>Jarvis.</strong> The backend for an AI assistant: request routing, session logic, LLM integration and a
-        RAG pipeline for document-grounded answers.
-      </li>
-      <li>
-        <strong>Vergold Technologies, April to August 2025.</strong> Software development intern. I helped build backend
-        APIs with FastAPI and Flask, wrote internal tools and scripts in Python, and took part in code reviews.
-      </li>
-    </ul>
-
-    <h2>What I work with</h2>
-    <p>
-      Python, FastAPI, PostgreSQL, MongoDB, SQLAlchemy, Qdrant, pgvector, JWT authentication, Docker, and the Groq,
-      OpenAI and Hugging Face APIs.
-    </p>
-
-    <h2>What I'm looking for</h2>
-    <p>
-      An internship or junior backend role on a team working with APIs, vector search or LLM infrastructure. I'm also
-      open to freelance backend work.
-    </p>
-
-    <h2>Working with me</h2>
-    <p>
-      Email me at <a href="mailto:badmussamad13@gmail.com">badmussamad13@gmail.com</a> with what you need built or the
-      role you're hiring for. My <a href="/resume.pdf">resume</a> and <a href="https://github.com/Samd43366">GitHub</a>
-      are linked from every page.
-    </p>
   </div>
+
+  <section class="wrap" aria-labelledby="built">
+    <div class="section-head"><h2 id="built">What I've built</h2></div>
+    <div class="bento">
+      {
+        built.map((b) => (
+          <div class="card cell cell--6">
+            <div class="card-head">
+              <h3>{b.title}</h3>
+              <p>{b.sub}</p>
+            </div>
+            <p style="margin:0;color:var(--ink-2);">{b.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="next">
+    <div class="bento">
+      <div class="card cell cell--6">
+        <div class="card-head">
+          <h2 id="next">What I work with</h2>
+        </div>
+        <ul class="chips">
+          {
+            ['Python', 'FastAPI', 'PostgreSQL', 'MongoDB', 'SQLAlchemy', 'Qdrant', 'pgvector', 'JWT auth', 'Docker', 'Groq', 'OpenAI', 'Hugging Face'].map(
+              (s) => <li class="chip" data-tone={s === 'Python' ? 'blue' : ['FastAPI', 'SQLAlchemy', 'JWT auth'].includes(s) ? 'green' : ['PostgreSQL', 'MongoDB', 'Qdrant', 'pgvector'].includes(s) ? 'violet' : s === 'Docker' ? 'orange' : 'pink'}>{s}</li>
+            )
+          }
+        </ul>
+      </div>
+
+      <div class="card cell cell--6">
+        <div class="card-head">
+          <h2>What I'm looking for</h2>
+        </div>
+        <p style="margin:0;color:var(--ink-2);">
+          An internship or junior backend role on a team working with APIs, vector search or LLM infrastructure. I'm
+          also open to freelance backend work.
+        </p>
+      </div>
+
+      <div class="card cell">
+        <div class="card-head">
+          <h2>Working with me</h2>
+          <p>Email me with what you need built or the role you're hiring for.</p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={`mailto:${site.email}`}>Email me</a>
+          <a class="btn" href="/resume.pdf">Resume</a>
+          <a class="btn" href={site.github}>GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
 </Base>

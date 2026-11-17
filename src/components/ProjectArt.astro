@@ -1,0 +1,50 @@
+---
+// Abstract header art for a project card. It is built from shapes and carries no text or numbers,
+// so it cannot be mistaken for a screenshot or for real data.
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+
+const R = 24;
+const W = Math.sqrt(3) * R;
+const flower = [
+  [0, 0, 3],
+  [-1, 0, 1],
+  [1, 0, 2],
+  [-0.5, -1, 4],
+  [0.5, -1, 1],
+  [-0.5, 1, 1],
+  [0.5, 1, 4],
+];
+const hex = (cx: number, cy: number, r: number) =>
+  Array.from({ length: 6 }, (_, k) => {
+    const a = ((60 * k - 30) * Math.PI) / 180;
+    return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
+  }).join(' ');
+---
+
+<svg class="art" viewBox="0 0 360 150" aria-hidden="true">
+  {
+    id === 'naija-pulse' ? (
+      <g>
+        {flower.map(([x, y, f]) => (
+          <polygon class={`art-fill-${f}`} points={hex(180 + x * W, 75 + y * 1.5 * R, R - 2)} />
+        ))}
+      </g>
+    ) : id === 'bowen-ai' ? (
+      <g>
+        <rect class="art-fill-1" x="40" y="26" width="150" height="26" rx="13" />
+        <rect class="art-fill-2" x="190" y="62" width="130" height="26" rx="13" />
+        <rect class="art-fill-1" x="40" y="98" width="200" height="26" rx="13" />
+        <rect class="art-fill-3" x="252" y="103" width="52" height="16" rx="8" />
+      </g>
+    ) : (
+      <g>
+        <rect class="art-fill-1" x="40" y="30" width="280" height="22" rx="11" />
+        <rect class="art-fill-4" x="40" y="64" width="190" height="22" rx="11" />
+        <rect class="art-fill-1" x="40" y="98" width="240" height="22" rx="11" />
+      </g>
+    )
+  }
+</svg>

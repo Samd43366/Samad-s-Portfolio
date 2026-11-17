@@ -1,7 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import ProjectList from '../components/ProjectList.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import HexGrid from '../components/HexGrid.astro';
+import ExtLink from '../components/ExtLink.astro';
 import { getCollection } from 'astro:content';
 import { site } from '../data/site';
 import { findImage } from '../lib/image';
@@ -9,39 +11,137 @@ import { findImage } from '../lib/image';
 const projects = (await getCollection('projects', ({ data }) => !data.draft && data.featured)).sort(
   (a, b) => a.data.order - b.data.order,
 );
-
+const heroProject = projects.find((p) => p.id === 'naija-pulse');
 const photo = findImage(site.photo);
+
+const stack = [
+  { label: 'Language', tone: 'blue', items: ['Python'] },
+  { label: 'Backend', tone: 'green', items: ['FastAPI', 'Flask', 'SQLAlchemy', 'JWT auth'] },
+  { label: 'Data', tone: 'violet', items: ['PostgreSQL', 'MongoDB', 'SQLite', 'Qdrant', 'pgvector'] },
+  { label: 'AI', tone: 'pink', items: ['RAG', 'Gemini', 'Groq', 'OpenAI', 'Hugging Face'] },
+  { label: 'Tools', tone: 'orange', items: ['Docker', 'Git and GitHub'] },
+];
 ---
 
 <Base>
-  <section class:list={['wrap', 'hero', { 'hero--photo': photo }]}>
-    <div class="hero-text">
+  <section class="wrap hero">
+    <div>
+      <div class="btn-row" style="align-items:center;">
+        {
+          photo && (
+            <Image
+              src={photo}
+              alt={site.photoAlt || `Portrait of ${site.name}`}
+              width={96}
+              height={96}
+              format="webp"
+              quality={80}
+              loading="eager"
+              style="width:3rem;height:3rem;border-radius:50%;object-fit:cover;"
+            />
+          )
+        }
+        <span class="status status--open">Open to internships and freelance work</span>
+      </div>
       <h1>{site.headline}</h1>
       <p class="lede">{site.subline}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/projects">View projects</a>
+        <a class="btn" href="/resume.pdf">Download resume</a>
+      </div>
     </div>
+
     {
-      photo && (
-        <Image
-          class="portrait"
-          src={photo}
-          alt={site.photoAlt || `Portrait of ${site.name}`}
-          width={640}
-          format="webp"
-          quality={80}
-          loading="eager"
-        />
+      heroProject && (
+        <div class="card hero-art">
+          <div class="card-head">
+            <h2>{heroProject.data.title}</h2>
+            <p>{heroProject.data.summary}</p>
+          </div>
+          <HexGrid />
+          <div class="card-foot link-row">
+            <a class="ext" href={`/projects/${heroProject.id}`}>Read the case study</a>
+            {heroProject.data.repo && <ExtLink href={heroProject.data.repo} />}
+          </div>
+        </div>
       )
     }
   </section>
 
   <section class="wrap section" aria-labelledby="work">
-    <h2 id="work">Projects</h2>
-    <ProjectList projects={projects} />
-    <p style="margin-top: 1.25rem;"><a href="/projects">All projects</a></p>
+    <div class="section-head">
+      <div>
+        <h2 id="work">Projects</h2>
+        <p>What I'm building now and the decisions behind it.</p>
+      </div>
+      <a class="btn" href="/projects">All projects</a>
+    </div>
+    <div class="project-grid">
+      {projects.map((p) => <ProjectCard project={p} />)}
+    </div>
   </section>
 
-  <section class="wrap section" aria-labelledby="contact">
-    <h2 id="contact">Contact</h2>
-    <p>Hiring, or have a backend to build? Email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  <section class="wrap section" aria-labelledby="background">
+    <div class="section-head">
+      <div>
+        <h2 id="background">Background</h2>
+        <p>Where I've worked, what I use, and where I study.</p>
+      </div>
+    </div>
+    <div class="bento">
+      <div class="card cell cell--7">
+        <div class="card-head">
+          <h3>Software development intern</h3>
+          <p>Vergold Technologies</p>
+        </div>
+        <div class="months" role="img" aria-label="April to August 2025">
+          {['Apr', 'May', 'Jun', 'Jul', 'Aug'].map((m) => <span class="month">{m}</span>)}
+        </div>
+        <ul class="plain-list">
+          <li>Helped build backend APIs with FastAPI and Flask.</li>
+          <li>Wrote internal tools and scripts in Python.</li>
+          <li>Took part in code reviews to improve the codebase.</li>
+        </ul>
+      </div>
+
+      <div class="card cell cell--5 cell--tall">
+        <div class="card-head">
+          <h3>Stack</h3>
+          <p>What I use day to day.</p>
+        </div>
+        <div>
+          {
+            stack.map((g) => (
+              <div class="group">
+                <p class="group-label">{g.label}</p>
+                <ul class="chips">
+                  {g.items.map((i) => <li class="chip" data-tone={g.tone}>{i}</li>)}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="card cell cell--7">
+        <div class="card-head">
+          <h3>BSc Computer Science</h3>
+          <p>Bowen University, Ibadan</p>
+        </div>
+        <div class="card-foot"><span class="status" data-status="building">In progress</span></div>
+      </div>
+
+      <div class="card cell">
+        <div class="card-head">
+          <h3>Hiring, or have a backend to build?</h3>
+          <p>Email is the fastest way to reach me.</p>
+        </div>
+        <div class="card-foot btn-row">
+          <a class="btn btn--primary" href={`mailto:${site.email}`}>Email me</a>
+          <a class="btn" href={site.github}>GitHub</a>
+          <a class="btn" href="/resume.pdf">Resume</a>
+        </div>
+      </div>
+    </div>
   </section>
 </Base>

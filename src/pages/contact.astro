@@ -1,6 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
+
+const rows = [
+  { href: `mailto:${site.email}`, title: 'Email', sub: site.email, mono: true },
+  { href: site.github, title: 'GitHub', sub: site.github.replace(/^https?:\/\//, '') },
+  site.linkedin ? { href: site.linkedin, title: 'LinkedIn', sub: site.linkedin.replace(/^https?:\/\/(www\.)?/, '') } : null,
+  site.freelancer ? { href: site.freelancer, title: 'Freelancer', sub: site.freelancer.replace(/^https?:\/\/(www\.)?/, '') } : null,
+  { href: '/resume.pdf', title: 'Resume', sub: 'PDF, one page' },
+].filter(Boolean) as { href: string; title: string; sub: string; mono?: boolean }[];
 ---
 
 <Base title="Contact" description="Email, GitHub and resume.">
@@ -9,12 +17,24 @@ import { site } from '../data/site';
     <p class="lede">Email is the fastest way to reach me.</p>
   </div>
   <div class="wrap">
-    <ul class="links">
-      <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-      <li><a href={site.github}>GitHub</a></li>
-      {site.linkedin && <li><a href={site.linkedin}>LinkedIn</a></li>}
-      {site.freelancer && <li><a href={site.freelancer}>Freelancer profile</a></li>}
-      <li><a href="/resume.pdf">Resume (PDF)</a></li>
-    </ul>
+    <div class="card" style="max-width:40rem;">
+      <ul class="contact-list">
+        {
+          rows.map((r) => (
+            <li>
+              <a class="contact-row" href={r.href}>
+                <div>
+                  <strong>{r.title}</strong>
+                  <span class:list={{ mono: r.mono }}>{r.sub}</span>
+                </div>
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 9 9 3M4 3h5v5"></path>
+                </svg>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 </Base>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  href: string;
+  label?: string;
+}
+const { href, label } = Astro.props;
+// Show "github.com/Samd43366/naija-pulse" rather than the full URL.
+const text = label ?? href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+---
+
+<a class="ext" href={href}>
+  {text}
+  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 9 9 3M4 3h5v5"></path>
+  </svg>
+</a>

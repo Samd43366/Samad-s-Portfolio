@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ProjectList from '../../components/ProjectList.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
@@ -11,8 +11,9 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 <Base title="Projects" description="Projects I am building, with the decisions behind each.">
   <div class="wrap page-head">
     <h1>Projects</h1>
+    <p class="lede">What I'm building, with the decisions behind each.</p>
   </div>
-  <div class="wrap">
-    <ProjectList projects={projects} />
+  <div class="wrap project-grid">
+    {projects.map((p) => <ProjectCard project={p} />)}
   </div>
 </Base>

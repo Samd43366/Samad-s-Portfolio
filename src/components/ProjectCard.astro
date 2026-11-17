@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProjectArt from './ProjectArt.astro';
+import ExtLink from './ExtLink.astro';
+import { tone } from '../lib/tone';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, summary, status, stack, repo, demo } = project.data;
+
+const statusLabel = { live: 'Live', building: 'In progress', planned: 'Planned' } as const;
+---
+
+<article class="card project-card">
+  <ProjectArt id={project.id} />
+  <div class="project-body">
+    <div class="project-top">
+      <h3 class="project-title"><a href={`/projects/${project.id}`}>{title}</a></h3>
+      <span class="status" data-status={status}>{statusLabel[status]}</span>
+    </div>
+    <p class="project-summary">{summary}</p>
+    <ul class="chips" aria-label="Stack">
+      {stack.map((s) => <li class="chip" data-tone={tone(s)}>{s}</li>)}
+    </ul>
+    {
+      (repo || demo) && (
+        <div class="card-foot link-row">
+          {demo && <ExtLink href={demo} label="Live demo" />}
+          {repo && <ExtLink href={repo} />}
+        </div>
+      )
+    }
+  </div>
+</article>

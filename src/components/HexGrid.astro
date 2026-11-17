@@ -1,0 +1,44 @@
+---
+// A decorative H3-style hexagon grid, the structure Naija Pulse groups reports on.
+// It is an illustration. The cell colours are not data.
+const R = 21;
+const W = Math.sqrt(3) * R;
+const cols = 9;
+const rows = 7;
+const rings = new Set(['3,2', '6,4', '1,5']);
+
+const hexPoints = (cx: number, cy: number, r: number) =>
+  Array.from({ length: 6 }, (_, k) => {
+    const a = ((60 * k - 30) * Math.PI) / 180;
+    return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
+  }).join(' ');
+
+const cells = [];
+for (let r = 0; r < rows; r++) {
+  for (let c = 0; c < cols; c++) {
+    const cx = c * W + W / 2 + (r % 2 ? W / 2 : 0);
+    const cy = r * 1.5 * R + R;
+    const h = Math.abs(Math.sin((c + 1) * 12.9898 + (r + 1) * 78.233) * 43758.5453) % 1;
+    const level = h < 0.5 ? 0 : h < 0.75 ? 1 : h < 0.9 ? 2 : 3;
+    cells.push({ cx, cy, level, delay: (c + r) * 70, ring: rings.has(`${c},${r}`) });
+  }
+}
+const width = cols * W + W / 2;
+const height = (rows - 1) * 1.5 * R + 2 * R;
+---
+
+<svg class="hexgrid" viewBox={`0 0 ${width.toFixed(0)} ${height.toFixed(0)}`} role="img" aria-label="Illustration of a hexagonal map grid">
+  {
+    cells.map((c) => (
+      <g>
+        <polygon class="hx" data-l={c.level} points={hexPoints(c.cx, c.cy, R - 2.5)} style={`--d:${c.delay}ms`} />
+        {c.ring && (
+          <>
+            <polygon class="hx-ring" points={hexPoints(c.cx, c.cy, R - 2.5)} />
+            <circle class="hx-dot" cx={c.cx} cy={c.cy} r="3" />
+          </>
+        )}
+      </g>
+    ))
+  }
+</svg>

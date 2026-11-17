@@ -1,8 +1,11 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import ExtLink from '../../components/ExtLink.astro';
+import DecayChart from '../../components/DecayChart.astro';
 import { getCollection, render } from 'astro:content';
 import { findImage } from '../../lib/image';
+import { tone } from '../../lib/tone';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects', ({ data }) => !data.draft);
@@ -25,45 +28,57 @@ const statusLabel = { live: 'Live', building: 'In progress', planned: 'Planned' 
     <header class="case-head">
       <h1>{title}</h1>
       <p class="lede">{summary}</p>
-
-      <dl class="facts">
-        <div>
-          <dt>Status</dt>
-          <dd><span class="status" data-status={status}>{statusLabel[status]}</span></dd>
-        </div>
-        <div>
-          <dt>Stack</dt>
-          <dd>{stack.join(', ')}</dd>
-        </div>
-        <div>
-          <dt>Year</dt>
-          <dd>{year}</dd>
-        </div>
-        {
-          hasLinks && (
-            <div>
-              <dt>Links</dt>
-              <dd class="link-stack">
-                {demo && <a href={demo}>Live demo</a>}
-                {repo && <a href={repo}>Source code</a>}
-                {links.map((l) => <a href={l.url}>{l.label}</a>)}
-              </dd>
-            </div>
-          )
-        }
-      </dl>
     </header>
 
-    {
-      cover && (
-        <figure class="cover">
-          <Image src={cover} alt={imageAlt || `${title} screenshot`} width={1100} format="webp" quality={80} />
-        </figure>
-      )
-    }
+    <div class="case">
+      <article class="card">
+        {
+          cover && (
+            <figure class="cover" style="margin:0;">
+              <Image src={cover} alt={imageAlt || `${title} screenshot`} width={1100} format="webp" quality={80} />
+            </figure>
+          )
+        }
+        <div class="prose">
+          <Content />
+        </div>
+      </article>
 
-    <article class="prose">
-      <Content />
-    </article>
+      <aside class="case-side" aria-label="Project details">
+        <div class="card">
+          <dl class="facts">
+            <div>
+              <dt>Status</dt>
+              <dd><span class="status" data-status={status}>{statusLabel[status]}</span></dd>
+            </div>
+            <div>
+              <dt>Stack</dt>
+              <dd>
+                <ul class="chips">
+                  {stack.map((s) => <li class="chip" data-tone={tone(s)}>{s}</li>)}
+                </ul>
+              </dd>
+            </div>
+            <div>
+              <dt>Year</dt>
+              <dd class="mono">{year}</dd>
+            </div>
+            {
+              hasLinks && (
+                <div>
+                  <dt>Links</dt>
+                  <dd class="link-stack">
+                    {demo && <ExtLink href={demo} label="Live demo" />}
+                    {repo && <ExtLink href={repo} label="Source code" />}
+                    {links.map((l) => <ExtLink href={l.url} label={l.label} />)}
+                  </dd>
+                </div>
+              )
+            }
+          </dl>
+        </div>
+        {entry.id === 'naija-pulse' && <DecayChart />}
+      </aside>
+    </div>
   </div>
 </Base>

@@ -1,0 +1,66 @@
+---
+// Draws the real vote-weight formula from Naija Pulse (backend/app/core/trust_math.py):
+//   weight = 1 / (1 + (distance / 500 m)^2)
+// It is a plot of that function, not measured data.
+const half = 500;
+const weight = (d: number) => 1 / (1 + (d / half) ** 2);
+
+const W = 320;
+const H = 206;
+const padL = 34;
+const padR = 14;
+const padT = 30;
+const padB = 30;
+const x = (d: number) => padL + (d / 2000) * (W - padL - padR);
+const y = (w: number) => padT + (1 - w) * (H - padT - padB);
+
+const pts: string[] = [];
+for (let d = 0; d <= 2000; d += 20) pts.push(`${x(d).toFixed(1)},${y(weight(d)).toFixed(1)}`);
+const line = `M${pts.join(' L')}`;
+const area = `${line} L${x(2000).toFixed(1)},${y(0).toFixed(1)} L${x(0).toFixed(1)},${y(0).toFixed(1)} Z`;
+
+const marks = [0, 500, 2000].map((d) => ({ d, w: weight(d) }));
+const xTicks = [
+  { d: 0, t: '0' },
+  { d: 500, t: '500 m' },
+  { d: 1000, t: '1 km' },
+  { d: 1500, t: '1.5 km' },
+  { d: 2000, t: '2 km' },
+];
+---
+
+<div class="card">
+  <div class="card-head">
+    <h2>How much a vote counts</h2>
+    <p>Weight of a confirmation by how far the voter is from the incident.</p>
+  </div>
+  <svg
+    class="chart"
+    viewBox={`0 0 ${W} ${H}`}
+    role="img"
+    aria-label="Vote weight falls from 1.00 at the incident to 0.50 at 500 metres and 0.06 at 2 kilometres."
+  >
+    {[0, 0.5, 1].map((w) => (
+      <g>
+        <line class="chart-grid" x1={padL} x2={W - padR} y1={y(w)} y2={y(w)} />
+        <text class="chart-text" x={padL - 8} y={y(w) + 4} text-anchor="end">{w === 0 ? '0' : w.toFixed(1)}</text>
+      </g>
+    ))}
+    {xTicks.map((t) => (
+      <text class="chart-text" x={x(t.d)} y={H - 8} text-anchor={t.d === 0 ? 'start' : t.d === 2000 ? 'end' : 'middle'}>{t.t}</text>
+    ))}
+    <path class="chart-area" d={area}></path>
+    <path class="chart-curve" d={line}></path>
+    {marks.map((m) => (
+      <g>
+        <circle class="chart-point" cx={x(m.d)} cy={y(m.w)} r="4.5" />
+        <text
+          class="chart-value"
+          x={x(m.d) + (m.d === 2000 ? -8 : 10)}
+          y={y(m.w) + (m.d === 2000 ? -10 : -8)}
+          text-anchor={m.d === 2000 ? 'end' : 'start'}
+        >{m.w.toFixed(2)}</text>
+      </g>
+    ))}
+  </svg>
+</div>
